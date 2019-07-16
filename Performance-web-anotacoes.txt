@@ -1,0 +1,126 @@
+Motivos para otimização:
+
+* Estamos prestes a entrar em uma longa jornada para otimizar a performance dos nossos sites. Porque isso é importante? Quais os motivos para otimizarmos nosso front-end?
+
+- Sites rápidos têm uma melhor experiência para o usuário
+Performance é UX! Usuários ficam mais satisfeitos em sites mais rápidos. Sites lentos frustram as pessoas, de acordo com várias pesquisas.
+
+- Existe uma relação direta entre performance e métricas de conversão.
+Muitos estudos já mostraram que sites mais rápidos vendem mais, mantêm usuários engajados por mais tempo, obtêm mais leads e etc.
+
+- Para economizar recursos do servidor.
+Um site bem otimizado também economiza banda e recursos do servidor
+
+- Para economizar recursos do cliente.
+Um site otimizado também economiza banda do usuário e até economiza bateria com menos processamento
+
+* Como saber o tamanho total do download que o usuário vai baixar ao acessar minha página?
+
+- Abrindo o site no navegador e observando no DevTools o tamanho total.
+Dessa forma sabemos exatamente o que o browser baixa, além de já considerar os tamanhos gzipados.
+
+* GZIP:
+
+- O GZIP permite comprimir o tráfego de dados entre o cliente e o servidor de forma transparente.
+Habilitamos uma configuração no servidor para enviar arquivos comprimidos para o navegador, economizando muito no tráfego de dados.
+
+- Diminuir o tamanho em bytes de uma página é apenas uma de várias otimizações possíveis.
+Muitas otimizações que veremos no curso não têm relação direta com o tamanho, mas em como os requests são feitos, por exemplo. Temos bastante chão pela frente!
+
+Falamos bastante do GZIP e sua importância. Mas há outras alternativas para compressão do conteúdo trafegado entre cliente e servidor. O GZIP é o clássico que funciona em todos os browsers e servidores, mas há algoritmos mais modernos.
+
+O Brotli em especial é um que tem ganho bastante atenção ultimamente. Ele foi criado pelo Google e anunciado em Setembro de 2015. Segundo estudos, ele tem uma taxa de compressão 25% melhor que o GZIP e com uma velocidade de processamento parecida.
+
+Ele já possui suporte no Firefox, Chrome e Opera há algum tempo. O detalhe é que funciona apenas em conexões HTTPS (pra evitar quebrar intermediários não compatíveis). Nos servidores, há módulos opcionais para vários deles, como nginx e Apache.
+
+Alguns links (em inglês) caso queria se aprofundar:
+
+https://samsaffron.com/archive/2016/06/15/the-current-state-of-brotli-compression https://blogs.akamai.com/2016/02/understanding-brotlis-potential.html
+
+* Quais os pontos NEGATIVOS de uma imagem com tamanho maior que o necessário?
+
+- A imagem precisa ser redimensionada no navegador, gastando CPU do cliente.
+O browser precisa redimensionar a imagem na hora de exibi-la e isso pode ser custoso, sobretudo em cenários com dispositivos de baixo poder de processamento, como celulares.
+
+- A imagem gasta mais banda para ser transferida do servidor pro cliente.
+Mais bytes == mais banda. É gasto pro cliente e também atraso no carregamento do resto da página
+
+- Imagens maiores usam mais memória RAM da máquina do cliente.
+O arquivo da imagem precisa ser lido na memória, gastando RAM. Um problema se o usuário tiver pouca RAM, como no mobile.
+
+Cenário: ícones da página com desenhos gráficos não muito complexos que precisam funcionar em tamanhos e resoluções diferentes.
+
+- Qual o melhor formato de imagem para esse cenário?
+SVG é vetorial e escala bem em todo tipo de tamanho e resolução. É ótimo pra gráficos vetoriais. Se a imagem for muito complexa, pode ser um gargalo; mas é bom medir direito.
+
+Cenário: fotos dos instrutores que dão cursos na Alura.
+
+* Qual o melhor formato de imagem para esse cenário?
+JPEG: O melhor formato para fotos hoje na Web. Foi pensado pra isso. Há outros menos usados como WEBP e JPEG2000 que seriam bons também.
+
+* O que significa usar uma otimização lossless nas imagens?
+- Remover informações do arquivo ou reencodá-lo de forma a obter o mesmo resultado visual final. Não há perda de qualidade visual, apenas de dados secundários e desnecessários.
+Numa otimização lossless, o arquivo final possui a mesma qualidade visual do original. Só há remoção de metadados, outras informações não essencias e, às vezes, a aplicação de um algoritmo mais eficiente de encoding. Mas a imagem final é idêntica à original.
+
+* Otimizações lossy (Com perda de desempenho)
+Bons sites forçam otimizações lossy ao seu limite. Trocar um pouco de qualidade visual por mais performance é uma excelente prática.
+Mas não pode ser feito às cegas, claro. Toda otimização lossy precisa ser checada e aprovada. Analisar o quanto se pode diminuir sem prejudicar demais o design.
+
+Passar um SVG no svgo é considerado lossy pois há perda de alguns dados que podem ser importantes para edição posterior do arquivo. Muitas vezes há também diminuição na precisão dos pontos.
+
+Ao salvar um JPEG podemos escolher a qualidade do arquivo. Salvar com menos qualidade é considerado uma otimização lossy. Há perdas visuais com relação ao original. É nosso papel achar o balanço correto entre performance e qualidade visual.
+
+PNGs podem ser transformados de forma a diminuir o número de cores em uso. Perde-se informações de certas cores, o que diminui o tamanho do arquivo. É considerado lossy por que o efeito final pode ficar visualmente muito pior que o original.
+
+Abra o WebPageTest e rode uma análise de performance no nosso site.
+
+1) Vá em http://www.webpagetest.org/ e coloque o endereço público do nosso site.
+
+(se preferir, use a minha versão online: http://wpt-dot-curso-alura-site.appspot.com)
+
+2) Observe algumas métricas como tempo de carregamento, quantidade de requests, tamanho total, as notas que ele dá.
+
+Observe também o gráfico waterfall dos requests. Explore-o, investigue o site. Repare no gráfico de connections como vimos em aula (mostrando as 6 conexões simultâneas).
+
+3) Explore outras possibilidades. Volte a home do WebpageTest e escolha outras opções. Mude a localização e a velocidade de conexão. Mude outras coisas.
+
+Fuce bastante. O WebPageTest é uma ferramenta muito útil para o profissional de performance front-end.
+
+Outra ferramenta útil é o PageSpeed Insights, como vimos na aula.
+
+Basta colocar o endereço público do seu site e ele dará uma série de dicas práticas de otimização.
+
+Repare que já fizemos várias (como otimizar imagens, usar gzip, minificar arquivos etc). Mas repare também que há muitas outras melhorias importantes a serem feitas.
+
+- Qual o tamanho ideal da resposta do documento HTML e porque?
+14KB gzipados, incluindo os headers da resposta. É o tamanho aproximado de 10 segmentos TCP, o padrão da janela inicial de novas conexões em servidores modernos.
+
+Vantages em paralelizar:
+
+- Carregamento total mais rápido ja que o browser baixa mais coisas ao mesmo tempo.
+- Com um novo hostname, os cookies do hostname principal não são enviados. O que gera até uma economia de bytes nas requisições.
+- Menos espera para baixar recursos secundários, já que já mais conexões disponíveis.
+
+Além de carregar mais rápido, pode até gerar uma economia de bytes ao evitar o envio de cookies do domínio principal.
+
+Estudos já mostraram que 2 ou 3 hostnames diferentes é o número ideal. Muitos hostnames paralelos podem causar congestionamento na rede e atrasar o browser. Mas sempre vale testar caso a caso. Às vezes nem compensa ter nenhum hostname a mais.
+
+//////////////////////////////////////
+Minificar scripts:
+Habilitar gzip nos arquivos enviados. Configuração setada no apache, nginx, etc.
+Redimensionar imagens na resolução que for ser utilizada. Ex: uma tag IMG 50x50 não precisa de uma IMG 1000x1000
+Imagens de câmeras/alteradas em software, etc. Possuem metadatas, que são informações a respeito do arquivo, tais como data, hora e até mesmo outra imagem igual em formato para ser exibido como prévia da imagem no sistema operacional.
+Para fazer com que a imagem fique apenas com o conteúdo necessário para ser exibida na web, devemos reprocessar a mesma em algum software tipo o tyny ou Kraken
+Otimização de imagem com loseoess(mínimo de perda) realiza o tratamento da imagem sem perder qualidade?
+Otimização lossy: reescreve o arquivo, reduzindo a qualidade para reduzir o tamanho do arquivo. A perda na qualidade pode ser controlada, buscando o a relação entre ganho de desempenho/qualidade da imagem.
+Verificar desempenho da página: web page test e Google developer tests
+Atenção! Os navegadores fazem download de apenas 6 arquivos em simultâneo. Novas requisições serão realizadas apenas após esse prazo.
+Quando um arquivo sair da fila.
+Atenção! Os navegadores abrem até 6 conexões com um mesmo hostname. Portanto, caso tenhamos chamadas em outros hostnames, servindo de exemplo os subdomínios, podemos mais conexões realizando download simultâneo.
+Por exemplo, podemos ter um subdomínio com as imagens e CSS por exemplo em outro hostname, assim o navegador carregaria os dados mais rapidamente, pois não haveria a concorrência de conexão.
+É bom ter no máximo 3 hostname
+Para evitar saturação da rede, e também os navegadores possuem limites de requisições assíncronas. Temos q realizar essas alterações verificando a necessidade e dando prioridade a funcionalidades vitais ao funcionamento da página.
+Pela aba network, conseguimos ver se o arquivo é gzipado, se o mesmo é cacheado, etc.
+É possível setar no servidor o tempo em que um arquivo será cacheado, sendo expirado e baixado novamente após esse tempo.
+/////////////////////////////////////////
+
